@@ -6,16 +6,17 @@ namespace CQRS_ES.Domain
     public class ProductsAddedEvent : Event
     {
         public EventsRepository EventsRepository;
-        private readonly string TypeOfEvent;
+        private readonly Product _product;
+        private readonly string _typeOfEvent;
 
 
-        public ProductsAddedEvent(EventsRepository eventsRepository, Guid aggregateId, int quantity)
+        public ProductsAddedEvent(EventsRepository eventsRepository, Product product, int quantity)
         {
             EventsRepository = eventsRepository;
             Quantity = quantity;
-            AggregateId = aggregateId;
+            _product = product;
             DateTime = DateTime.Now;
-            TypeOfEvent = "Add";
+            _typeOfEvent = "Add";
         }
 
         public override void SetEventNumber(int eventNumber)
@@ -31,7 +32,7 @@ namespace CQRS_ES.Domain
 
         public override string ToString()
         {
-            return ($"Event {EventNumber}-{AggregateId}: TYPE - {TypeOfEvent} - QUANTITY - {Quantity} - DATE - {DateTime}");
+            return ($"Event {EventNumber}-{_product.AggregateId}: TYPE - {_typeOfEvent} - QUANTITY - {Quantity} - DATE - {DateTime}");
         }
     }
 }

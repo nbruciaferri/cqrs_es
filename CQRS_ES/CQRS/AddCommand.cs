@@ -8,19 +8,19 @@ namespace CQRS_ES.CQRS
     public class AddCommand : ICommand
     {
         public EventsRepository EventsRepository;
-        public Guid AggregateId;
+        public Product Product;
         public int Quantity;
 
-        public AddCommand(EventsRepository eventsRepository, Guid aggregateId, int quantity)
+        public AddCommand(EventsRepository eventsRepository, Guid aggregateId, int quantity, Product product)
         {
             EventsRepository = eventsRepository;
-            AggregateId = aggregateId;
+            Product = product;
             Quantity = quantity;
         }
 
         public void Apply()
         {
-            var AddedEvent = new ProductsAddedEvent(EventsRepository, AggregateId, Quantity);
+            var AddedEvent = new ProductsAddedEvent(EventsRepository, Product, Quantity);
             AddedEvent.Subscribe();
         }
     }

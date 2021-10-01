@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/CQRS_ES.csproj": {}
+    "C:\\Users\\niccolo.bruciaferri\\cqrs_es\\CQRS_ES\\CQRS_ES.csproj": {}
   },
   "projects": {
-    "/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/CQRS_ES.csproj": {
+    "C:\\Users\\niccolo.bruciaferri\\cqrs_es\\CQRS_ES\\CQRS_ES.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/CQRS_ES.csproj",
+        "projectUniqueName": "C:\\Users\\niccolo.bruciaferri\\cqrs_es\\CQRS_ES\\CQRS_ES.csproj",
         "projectName": "CQRS_ES",
-        "projectPath": "/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/CQRS_ES.csproj",
-        "packagesPath": "/Users/niccolobruciaferri/.nuget/packages/",
-        "outputPath": "/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/",
+        "projectPath": "C:\\Users\\niccolo.bruciaferri\\cqrs_es\\CQRS_ES\\CQRS_ES.csproj",
+        "packagesPath": "C:\\Users\\niccolo.bruciaferri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\niccolo.bruciaferri\\cqrs_es\\CQRS_ES\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/niccolobruciaferri/.config/NuGet/NuGet.Config"
+          "C:\\Users\\niccolo.bruciaferri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -52,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
