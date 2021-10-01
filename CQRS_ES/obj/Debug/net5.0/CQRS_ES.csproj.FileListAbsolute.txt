@@ -1,0 +1,15 @@
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/bin/Debug/net5.0/CQRS_ES.deps.json
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/bin/Debug/net5.0/CQRS_ES.runtimeconfig.json
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/bin/Debug/net5.0/CQRS_ES.runtimeconfig.dev.json
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/bin/Debug/net5.0/CQRS_ES.dll
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/bin/Debug/net5.0/ref/CQRS_ES.dll
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/bin/Debug/net5.0/CQRS_ES.pdb
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.csproj.AssemblyReference.cache
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.GeneratedMSBuildEditorConfig.editorconfig
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.AssemblyInfoInputs.cache
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.AssemblyInfo.cs
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.csproj.CoreCompileInputs.cache
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.dll
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/ref/CQRS_ES.dll
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.pdb
+/Users/niccolobruciaferri/Desktop/CQRS_ES/CQRS_ES/obj/Debug/net5.0/CQRS_ES.genruntimeconfig.cache
