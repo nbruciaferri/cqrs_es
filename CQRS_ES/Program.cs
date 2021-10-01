@@ -19,7 +19,7 @@ namespace CQRS_ES
 
             Product p = new Product("Macbook", Guid.NewGuid(), 5, 2700);
 
-            var command = new AddCommand(eventsRepository, p.AggregateId, p.Quantity);
+            var command = new AddCommand(eventsRepository, p, p.Quantity);
             command.Apply();
             eventNumber++;
 
@@ -30,7 +30,7 @@ namespace CQRS_ES
             queryModel.ShowProduct();
 
             Product p1 = new Product("Macbook", p.AggregateId, 10, 2700);
-            var command1 = new AddCommand(eventsRepository, p1.AggregateId, p1.Quantity);
+            var command1 = new AddCommand(eventsRepository, p1, p1.Quantity);
             command1.Apply();
             eventNumber++;
 

@@ -11,7 +11,7 @@ namespace CQRS_ES.CQRS
         public Product Product;
         public int Quantity;
 
-        public AddCommand(EventsRepository eventsRepository, Guid aggregateId, int quantity, Product product)
+        public AddCommand(EventsRepository eventsRepository, Product product, int quantity)
         {
             EventsRepository = eventsRepository;
             Product = product;
