@@ -65,14 +65,6 @@ namespace CQRS_ES.Domain
             return Price;
         }
 
-        /// <summary>
-        /// Gets the Quantity of the product
-        /// </summary>
-        /// <returns></returns>
-        public int GetQuantity()
-        {
-            return Quantity;
-        }
 
         /// <summary>
         /// Sets the product's id
