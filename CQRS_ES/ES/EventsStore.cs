@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CQRS_ES.ES
@@ -12,17 +14,28 @@ namespace CQRS_ES.ES
 
         public EventsStore()
         {
+
+        }
+
+        public int GetLastEventNumber(Guid aggregateId)
+        {
+            return GetEventsByAggregate(aggregateId).LastOrDefault() == null ? -1 : ((Event)GetEventsByAggregate(aggregateId).LastOrDefault()).EventNumber;
+        }
+
+        public List<Guid> GetSavedAggregateIds()
+        {
+            return _eventsRepository.Keys.Distinct().ToList();
         }
 
         public List<IEvent> GetEventsByAggregate(Guid aggregateId)
         {
             if (!_eventsRepository.ContainsKey(aggregateId))
-                throw new Exception();
+                return new List<IEvent>();
 
             return _eventsRepository[aggregateId];
         }
 
-        public void SaveEvents(Guid aggregateId, List<IEvent> events, int eventNumber)
+        public void SaveEvents(Guid aggregateId, Dictionary<Guid, List<IEvent>> events, int eventNumber)
         {
             if (!_eventsRepository.ContainsKey(aggregateId))
             {
@@ -33,16 +46,28 @@ namespace CQRS_ES.ES
                 throw new Exception();
 
             int en = eventNumber;
-
-            foreach(var @event in events)
+            if (events.ContainsKey(aggregateId))
             {
-                en++;
-                @event.SetEventNumber(en);
+                foreach (var @event in events[aggregateId])
+                {
+                    en++;
+                    @event.SetEventNumber(en);
 
-                _eventsRepository[aggregateId].Add(@event);
+                    _eventsRepository[aggregateId].Add(@event);
+                }
+
+
+                events[aggregateId].Clear();
+
+                JsonSerializer serializer = new JsonSerializer();
+                using (StreamWriter sw = new StreamWriter(@"Events_DB.json"))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    serializer.Formatting = Formatting.Indented;
+                    serializer.Serialize(writer, _eventsRepository);
+                }
             }
-
-            events.Clear();
         }
     }
 }

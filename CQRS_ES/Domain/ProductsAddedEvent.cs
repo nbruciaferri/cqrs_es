@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CQRS_ES.ES;
 
 namespace CQRS_ES.Domain
@@ -15,6 +16,7 @@ namespace CQRS_ES.Domain
             EventsRepository = eventsRepository;
             Quantity = quantity;
             _product = product;
+            AggregateId = _product.AggregateId;
             DateTime = DateTime.Now;
             _typeOfEvent = "Add";
         }
@@ -27,7 +29,10 @@ namespace CQRS_ES.Domain
 
         public override void Subscribe()
         {
-            EventsRepository.Events.Add(this);
+            if (!EventsRepository.Events.ContainsKey(AggregateId))
+                EventsRepository.Events.Add(AggregateId, new List<IEvent>());
+
+            EventsRepository.Events[AggregateId].Add(this);
         }
 
         public override string ToString()

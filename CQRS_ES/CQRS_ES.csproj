@@ -11,8 +11,10 @@
     <None Remove="Domain\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CQRS\" />
     <Folder Include="ES\" />
     <Folder Include="Domain\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
