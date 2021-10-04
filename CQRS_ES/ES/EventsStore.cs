@@ -18,6 +18,11 @@ namespace CQRS_ES.ES
         {
         }
 
+        public Dictionary<Guid, List<IEvent>> GetEventsRepository()
+        {
+            return _eventsRepository;
+        }
+
         /// <summary>
         /// Gets the eventNumber of the last saved event
         /// </summary>

@@ -46,18 +46,22 @@ namespace CQRS_ES
                 }
             }
 
+            Console.WriteLine("|==================== EVENTS ====================|");
             foreach (var id in dAggregateId.Keys)
             {
                 QueryModel model = new QueryModel(eventsStore, id);
                 model.ShowProduct();
-
             }
+            Console.WriteLine("|================================================|\n");
 
             // 2 Seconds
             Thread.Sleep(2000);
 
             Product p3 = new Product("Gaming Pc", p2.AggregateId, -12, 1500);
             commandHandler.HandleCommand(new AddCommand(eventsRepository, p3, p3.Quantity), dAggregateId);
+
+            Product p4 = new Product("Workstation", Guid.NewGuid(), 1, 700);
+            commandHandler.HandleCommand(new AddCommand(eventsRepository, p4, p4.Quantity), dAggregateId);
             
             uncommittedEvents = eventsRepository.GetUncommittedEvents();
             if (uncommittedEvents.Count > 0)
@@ -71,12 +75,14 @@ namespace CQRS_ES
                 }
             }
 
-            foreach(var id in dAggregateId.Keys)
+            Console.WriteLine("|==================== EVENTS ====================|");
+            foreach (var id in dAggregateId.Keys)
             {
                 QueryModel model = new QueryModel(eventsStore, id);
                 model.ShowProduct();
 
             }
+            Console.WriteLine("|================================================|\n");
         }
 
     }
