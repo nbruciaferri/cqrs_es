@@ -12,6 +12,7 @@ namespace CQRS_ES_Tests.Domain
     [TestFixture]
     public class ProductEventTest
     {
+        private EventsStore _eventsStore;
         private Guid _aggregateId;
         private Event _event;
         private EventsRepository _eventsRepository;
@@ -21,6 +22,7 @@ namespace CQRS_ES_Tests.Domain
         [SetUp]
         public void Setup()
         {
+            _eventsStore = new EventsStore();
             _aggregateId = Guid.NewGuid();
             _eventsRepository = new EventsRepository();
             _quantity = 10;
@@ -30,7 +32,7 @@ namespace CQRS_ES_Tests.Domain
         [Test]
         public void ConstructorTest()
         {
-            _event = new ProductsAddedEvent(_eventsRepository, _product, _quantity);
+            _event = new ProductsAddedEvent(_eventsStore, _eventsRepository, _product, _quantity);
 
             Assert.IsInstanceOf<IEvent>(_event);
             Assert.IsInstanceOf<Event>(_event);
@@ -46,7 +48,7 @@ namespace CQRS_ES_Tests.Domain
         [TestCase(7)]
         public void SetEventNumberTest(int eventNumber)
         {
-            _event = new ProductsAddedEvent(_eventsRepository, _product, _quantity);
+            _event = new ProductsAddedEvent(_eventsStore, _eventsRepository, _product, _quantity);
 
             _event.SetEventNumber(eventNumber);
             Assert.AreEqual(_event.EventNumber, eventNumber);
@@ -57,7 +59,7 @@ namespace CQRS_ES_Tests.Domain
         {
             Assert.IsEmpty(_eventsRepository.Events);
 
-            _event = new ProductsAddedEvent(_eventsRepository, _product, _quantity);
+            _event = new ProductsAddedEvent(_eventsStore, _eventsRepository, _product, _quantity);
             _event.Subscribe();
 
             Assert.IsNotEmpty(_eventsRepository.Events);

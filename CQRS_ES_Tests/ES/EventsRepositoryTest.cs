@@ -12,6 +12,7 @@ namespace CQRS_ES_Tests.ES
     [TestFixture]
     public class EventsRepositoryTest
     {
+        private EventsStore _eventsStore;
         private EventsRepository _eventsRepository;
         private Guid _aggregateId;
 
@@ -19,6 +20,7 @@ namespace CQRS_ES_Tests.ES
         [SetUp]
         public void Setup()
         {
+            _eventsStore = new EventsStore();
             _eventsRepository = new EventsRepository();
             _aggregateId = Guid.NewGuid();
         }
@@ -36,7 +38,7 @@ namespace CQRS_ES_Tests.ES
             Assert.IsNotNull(_eventsRepository.GetUncommittedEvents());
             Assert.IsEmpty(_eventsRepository.GetUncommittedEvents());
 
-            _eventsRepository.Events.Add(_aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsRepository, new Product("prova", _aggregateId, 1, 10), 1) });
+            _eventsRepository.Events.Add(_aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsStore, _eventsRepository, new Product("prova", _aggregateId, 1, 10), 1) });
             Assert.IsNotEmpty(_eventsRepository.GetUncommittedEvents());
             Assert.AreEqual(_eventsRepository.GetUncommittedEvents().Count, 1);
             Assert.AreEqual(_eventsRepository.GetUncommittedEvents(), new List<Guid> { _aggregateId });

@@ -11,6 +11,8 @@ namespace CQRS_ES.ES
 
         public Guid AggregateId;
 
+        public int TotalQuantity;
+
         protected DateTime DateTime;
 
         public abstract void SetEventNumber(int eventNumber);

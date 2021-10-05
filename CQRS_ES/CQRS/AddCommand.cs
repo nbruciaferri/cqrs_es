@@ -10,6 +10,7 @@ namespace CQRS_ES.CQRS
     /// </summary>
     public class AddCommand : ICommand
     {
+        private readonly EventsStore _eventsStore;
         public EventsRepository EventsRepository;
         public Product Product;
         public int Quantity;
@@ -20,8 +21,9 @@ namespace CQRS_ES.CQRS
         /// <param name="eventsRepository"> The events repository to which adding the add event </param>
         /// <param name="product"> The product </param>
         /// <param name="quantity"> The quantity added to the product </param>
-        public AddCommand(EventsRepository eventsRepository, Product product, int quantity)
+        public AddCommand(EventsStore eventsStore, EventsRepository eventsRepository, Product product, int quantity)
         {
+            _eventsStore = eventsStore;
             EventsRepository = eventsRepository;
             Product = product;
             Quantity = quantity;
@@ -32,7 +34,7 @@ namespace CQRS_ES.CQRS
         /// </summary>
         public void Apply()
         {
-            var AddedEvent = new ProductsAddedEvent(EventsRepository, Product, Quantity);
+            var AddedEvent = new ProductsAddedEvent(_eventsStore, EventsRepository, Product, Quantity);
             AddedEvent.Subscribe();
         }
     }

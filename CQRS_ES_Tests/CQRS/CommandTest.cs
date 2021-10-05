@@ -15,6 +15,7 @@ namespace CQRS_ES_Tests.CQRS
     {
         private ICommand _command;
         private EventsRepository _eventsRepository;
+        private EventsStore _eventsStore;
         private Product _product;
         private int _quantity;
         private Guid _aggregateId;
@@ -24,6 +25,7 @@ namespace CQRS_ES_Tests.CQRS
         {
             _aggregateId = Guid.NewGuid();
             _eventsRepository = new EventsRepository();
+            _eventsStore = new EventsStore();
             _quantity = 10;
             _product = new Product("Prova", _aggregateId, _quantity, 100);
         }
@@ -31,7 +33,7 @@ namespace CQRS_ES_Tests.CQRS
         [Test]
         public void ConstructorTest()
         {
-            _command = new AddCommand(_eventsRepository, _product, _quantity);
+            _command = new AddCommand(_eventsStore, _eventsRepository, _product, _quantity);
 
             Assert.IsInstanceOf<ICommand>(_command);
             Assert.IsNotNull(((AddCommand)_command).EventsRepository);
@@ -42,7 +44,7 @@ namespace CQRS_ES_Tests.CQRS
         [Test]
         public void ApplyTest()
         {
-            _command = new AddCommand(_eventsRepository, _product, _quantity);
+            _command = new AddCommand(_eventsStore, _eventsRepository, _product, _quantity);
             Assert.IsNotNull(_command);
 
             Assert.IsEmpty(((AddCommand)_command).EventsRepository.Events);

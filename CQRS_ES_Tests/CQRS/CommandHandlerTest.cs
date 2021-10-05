@@ -46,7 +46,7 @@ namespace CQRS_ES_Tests.CQRS
         {
             //Assert.AreEqual(_dAggregateId[_aggregateId], 0);
 
-            _command = new AddCommand(_eventsRepository, _product, 15);
+            _command = new AddCommand(_eventsStore, _eventsRepository, _product, 15);
             int retValue = _commandHandler.HandleCommand(_command, _dAggregateId);
 
             Assert.AreEqual(retValue, 1);

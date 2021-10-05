@@ -9,6 +9,7 @@ namespace CQRS_ES.Domain
     /// </summary>
     public class ProductsAddedEvent : Event
     {
+        private readonly EventsStore _eventsStore;
         public EventsRepository EventsRepository;
         private readonly Product _product;
         private readonly string _typeOfEvent;
@@ -19,8 +20,9 @@ namespace CQRS_ES.Domain
         /// <param name="eventsRepository"> Events repository to which events are added </param>
         /// <param name="product"> the Product interested in the event </param>
         /// <param name="quantity"> Quantity of the product </param>
-        public ProductsAddedEvent(EventsRepository eventsRepository, Product product, int quantity)
+        public ProductsAddedEvent(EventsStore eventsStore, EventsRepository eventsRepository, Product product, int quantity)
         {
+            _eventsStore = eventsStore;
             EventsRepository = eventsRepository;
             Quantity = quantity;
             _product = product;
@@ -39,15 +41,34 @@ namespace CQRS_ES.Domain
         }
 
 
+
+        public void SetTotalQuantity()
+        {
+            _eventsStore.GetEventsByAggregate(AggregateId).ForEach(x => TotalQuantity += ((Event)x).Quantity);
+            TotalQuantity = TotalQuantity + Quantity;
+
+            if (TotalQuantity < 0)
+                TotalQuantity = 0;
+        }
+
+        public bool GetAvailability()
+        {
+            return TotalQuantity > 0;
+        }
+
         /// <summary>
         /// Adds the event to the Events Repository
         /// </summary>
         public override void Subscribe()
         {
-            if (!EventsRepository.Events.ContainsKey(AggregateId))
-                EventsRepository.Events.Add(AggregateId, new List<IEvent>());
+            SetTotalQuantity();
+            if (TotalQuantity >= 0)
+            {
+                if (!EventsRepository.Events.ContainsKey(AggregateId))
+                    EventsRepository.Events.Add(AggregateId, new List<IEvent>());
 
-            EventsRepository.Events[AggregateId].Add(this);
+                EventsRepository.Events[AggregateId].Add(this);
+            }
         }
 
         /// <summary>
@@ -56,7 +77,12 @@ namespace CQRS_ES.Domain
         /// <returns> The formatted string representation of the event </returns>
         public override string ToString()
         {
-            return ($"Event {EventNumber}-{_product.AggregateId}: TYPE - {_typeOfEvent} - QUANTITY - {Quantity} - DATE - {DateTime}");
+            return ($"Event {EventNumber}-{_product.AggregateId}: \n" +
+                $"\tTYPE: {_typeOfEvent} \n" +
+                $"\tQUANTITY: {Quantity} \n" +
+                $"\tDATE: {DateTime} \n" +
+                $"\tAVAILABLE: {GetAvailability()}\n" +
+                $"\tTOTAL QUANTITY: {TotalQuantity}\n");
         }
     }
 }

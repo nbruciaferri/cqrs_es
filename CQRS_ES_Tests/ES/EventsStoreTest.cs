@@ -96,7 +96,7 @@ namespace CQRS_ES_Tests.ES
 
             Dictionary<Guid, List<IEvent>> events = new Dictionary<Guid, List<IEvent>>
             {
-                { _aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsRepository, new Product("prova", _aggregateId, 1, 10), 1) } }
+                { _aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsStore, _eventsRepository, new Product("prova", _aggregateId, 1, 10), 1) } }
             };
 
             _eventsStore.SaveEvents(_aggregateId, events, 0);
@@ -106,7 +106,7 @@ namespace CQRS_ES_Tests.ES
         {
             Dictionary<Guid, List<IEvent>> events = new Dictionary<Guid, List<IEvent>>
             {
-                {aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsRepository, new Product("prova", aggregateId, 5, 10), 2) } }
+                {aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsStore, _eventsRepository, new Product("prova", aggregateId, 5, 10), 2) } }
             };
 
             _eventsStore.SaveEvents(aggregateId, events, _eventsStore.GetLastEventNumber(aggregateId));
