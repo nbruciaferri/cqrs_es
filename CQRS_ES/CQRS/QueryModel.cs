@@ -11,7 +11,6 @@ namespace CQRS_ES.CQRS
     {
         private readonly EventsStore _eventsStore;
         private readonly Guid _aggregateId;
-        //private int _totalQuantity;
 
         /// <summary>
         /// Constructor
@@ -22,33 +21,19 @@ namespace CQRS_ES.CQRS
         {
             _eventsStore = eventsStore;
             _aggregateId = aggregateId;
-            //_totalQuantity = 0;
         }
 
         /// <summary>
         /// Shows data to the client
         /// </summary>
-        public void ShowProduct()
+        public List<string> ShowProduct()
         {
-            //_totalQuantity = GetTotalQuantity();
+            List<string> retValue = new List<string>();
             foreach (var @event in _eventsStore.GetEventsByAggregate(_aggregateId))
-                Console.WriteLine(@event.ToString());
-            //+$"- AVAILABLE - {GetProductAvailability()} - TOTAL QUANTITY - {(_totalQuantity > 0 ? _totalQuantity : 0)}
+                retValue.Add(@event.ToString());
+            
+            return retValue;
         }
 
-        /// <summary>
-        /// Gets total quantity for the desired aggregateId
-        /// </summary>
-        /// <returns> The total quantity of the product </returns>
-        //private int GetTotalQuantity()
-        //{
-        //    _eventsStore.GetEventsByAggregate(_aggregateId).ForEach(x => _totalQuantity += ((Event)x).Quantity);
-        //    return _totalQuantity;
-        //}
-
-        //private bool GetProductAvailability()
-        //{
-        //    return _totalQuantity > 0;
-        //}
     }
 }
