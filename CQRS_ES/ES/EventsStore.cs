@@ -14,13 +14,25 @@ namespace CQRS_ES.ES
 
         private static readonly Dictionary<Guid, List<IEvent>> _eventsRepository = new Dictionary<Guid, List<IEvent>>();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public EventsStore()
         {
         }
 
+        /// <summary>
+        /// Gets the EventsRepository field
+        /// </summary>
+        /// <returns> _eventsRepository </returns>
         public Dictionary<Guid, List<IEvent>> GetEventsRepository()
         {
             return _eventsRepository;
+        }
+
+        public void ClearEventsRepository()
+        {
+            _eventsRepository.Clear();
         }
 
         /// <summary>

@@ -54,7 +54,7 @@ namespace CQRS_ES.CQRS
         /// <param name="dAggregateId"> The in memory cache of the actual product events to save </param>
         private void AddProcessedAggregateId(Product p, int eventNumber, Dictionary<Guid, int> dAggregateId)
         {
-            eventNumber = eventNumber++;
+            ++eventNumber;
             if (!dAggregateId.Keys.Contains(p.AggregateId))
                 dAggregateId.Add(p.AggregateId, eventNumber);
 

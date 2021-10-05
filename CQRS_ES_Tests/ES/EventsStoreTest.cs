@@ -14,27 +14,37 @@ namespace CQRS_ES_Tests.ES
     {
         private EventsStore _eventsStore;
         private EventsRepository _eventsRepository;
-        private Guid aggregateId;
+        private Guid _aggregateId;
 
         [SetUp]
         public void Setup()
         {
             _eventsStore = new EventsStore();
+            _eventsStore.ClearEventsRepository();
+
+            Assert.IsEmpty(_eventsStore.GetEventsRepository());
+
             _eventsRepository = new EventsRepository();
+            PopulateRepo();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            _eventsStore.ClearEventsRepository();
         }
 
         [Test]
         public void ConstructorTest()
         {
             Assert.IsInstanceOf<IEventStore>(_eventsStore);
-            Assert.IsEmpty(_eventsStore.GetEventsRepository());
+            Assert.IsNotEmpty(_eventsStore.GetEventsRepository());
         }
+
 
         [Test]
         public void SaveEventsTest()
         {
-            PopulateRepo();
-
             Assert.IsNotEmpty(_eventsStore.GetEventsRepository());
 
             var e = _eventsStore.GetEventsRepository().First().Value;
@@ -45,54 +55,51 @@ namespace CQRS_ES_Tests.ES
             Assert.IsInstanceOf<ProductsAddedEvent>(e.First());
             Assert.AreEqual(((ProductsAddedEvent)e.First()).Quantity, 1);
             Assert.AreEqual(((ProductsAddedEvent)e.First()).EventNumber, 1);
-            Assert.AreEqual(((ProductsAddedEvent)e.First()).AggregateId, aggregateId);
+            Assert.AreEqual(((ProductsAddedEvent)e.First()).AggregateId, _aggregateId);
         }
 
         [Test]
         public void GetLastEventNUmberTest()
         {
-            PopulateRepo();
-            Assert.AreEqual(_eventsStore.GetLastEventNumber(aggregateId), 1);
+            Assert.AreEqual(_eventsStore.GetLastEventNumber(_aggregateId), 1);
 
-            AddEventToAlreadyExistingRepo(aggregateId);
-            Assert.AreEqual(_eventsStore.GetLastEventNumber(aggregateId), 2);
+            AddEventToAlreadyExistingRepo(_aggregateId);
+            Assert.AreEqual(_eventsStore.GetLastEventNumber(_aggregateId), 2);
         }
 
         [Test]
         public void GetSavedAggregateIdsTest()
         {
-            PopulateRepo();
-            Assert.AreEqual(_eventsStore.GetSavedAggregateIds(), new List<Guid> { aggregateId });
+            Assert.AreEqual(_eventsStore.GetSavedAggregateIds(), new List<Guid> { _aggregateId });
 
-            AddEventToAlreadyExistingRepo(aggregateId);
-            Assert.AreEqual(_eventsStore.GetSavedAggregateIds(), new List<Guid> { aggregateId });
+            AddEventToAlreadyExistingRepo(_aggregateId);
+            Assert.AreEqual(_eventsStore.GetSavedAggregateIds(), new List<Guid> { _aggregateId });
 
             Guid newAggregateId = Guid.NewGuid();
             AddEventToAlreadyExistingRepo(newAggregateId);
             Assert.AreEqual(_eventsStore.GetSavedAggregateIds().Count, 2);
-            Assert.AreEqual(_eventsStore.GetSavedAggregateIds(), new List<Guid> { aggregateId, newAggregateId });
+            Assert.AreEqual(_eventsStore.GetSavedAggregateIds(), new List<Guid> { _aggregateId, newAggregateId });
         }
 
         [Test]
         public void GetEventsByAggregateTest()
         {
-            PopulateRepo();
-            Assert.AreEqual(_eventsStore.GetEventsByAggregate(aggregateId).Count, 1);
+            Assert.AreEqual(_eventsStore.GetEventsByAggregate(_aggregateId).Count, 1);
 
-            AddEventToAlreadyExistingRepo(aggregateId);
-            Assert.AreEqual(_eventsStore.GetEventsByAggregate(aggregateId).Count, 2);
+            AddEventToAlreadyExistingRepo(_aggregateId);
+            Assert.AreEqual(_eventsStore.GetEventsByAggregate(_aggregateId).Count, 2);
         }
 
         public void PopulateRepo()
         {
-            aggregateId = Guid.NewGuid();
+            _aggregateId = Guid.NewGuid();
 
             Dictionary<Guid, List<IEvent>> events = new Dictionary<Guid, List<IEvent>>
             {
-                { aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsRepository, new Product("prova", aggregateId, 1, 10), 1) } }
+                { _aggregateId, new List<IEvent> { new ProductsAddedEvent(_eventsRepository, new Product("prova", _aggregateId, 1, 10), 1) } }
             };
 
-            _eventsStore.SaveEvents(aggregateId, events, 0);
+            _eventsStore.SaveEvents(_aggregateId, events, 0);
         }
 
         public void AddEventToAlreadyExistingRepo(Guid aggregateId)
