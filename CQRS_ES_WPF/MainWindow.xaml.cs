@@ -78,8 +78,8 @@ namespace CQRS_ES_WPF
 
         private void RefreshData()
         {
-
-            EventsPanel.Children.RemoveRange(0, EventsPanel.Children.Count);
+            while (EventsPanel.Children.Count > 0)
+                EventsPanel.Children.RemoveAt(EventsPanel.Children.Count - 1);
 
             var uncommittedEvents = _eventsRepository.GetUncommittedEvents();
             if (uncommittedEvents.Count > 0)
